@@ -1,32 +1,45 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import { Button, FormControl, Input, InputLabel } from '@material-ui/core';
+import firebase from 'firebase/compat/app';
 import Todo from './components/Todo';
+import { db } from './firebase_config';
 
 function App() {
-    const [todos, setTodos] = useState([
-        'Make a react-based todo list project',
-        'Deploy it on firebase'
-    ])
+    const [todos, setTodos] = useState([])    
     const [input, setInput] = useState('')
+    useEffect(() => {
+        db.collection('todos').orderBy('timestamp','desc').onSnapshot(snapshot => {
+            setTodos(snapshot.docs.map(doc => ({
+                id: doc.id,
+                item: doc.data()})
+            ))
+        })
+    }, [input])
+
     const addTodo = e => {
         e.preventDefault()
-        setTodos([...todos, input])
+        if (input.trim().length > 0) {
+            db.collection('todos').add({
+                todo: input.trim(),
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            })
+        }
         setInput('')
     }
 
     return (
         <div className="app">
-            <h1>ToDo List</h1>
+            <h1>To-Do List</h1>
             <form>
                 <FormControl>
-                    <InputLabel>Write a TODO</InputLabel>
+                    <InputLabel>Write a To-Do</InputLabel>
                     <Input value={input} onChange={e => setInput(e.target.value)}/>
                 </FormControl>
-                <Button type="submit" onClick={addTodo} variant="contained" color="primary" disabled={!input}>Add Todo</Button>
+                <Button type="submit" onClick={addTodo} variant="contained" color="primary" disabled={!input}>Add To-do</Button>
             </form>
             <ul>
-                {todos.map(todo => <Todo todo={todo} />)}
+                {todos.map(it => <Todo key={it.id} arr={it} />)}
             </ul>
         </div>
     );
