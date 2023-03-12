@@ -1,0 +1,8 @@
+.home {
+    display:grid;
+    place-items: center;
+}  
+
+.home__todos {
+    margin-top: 40px;
+}

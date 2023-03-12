@@ -3,11 +3,12 @@ import { AppBar, Box, Toolbar, IconButton, Typography, Menu } from '@mui/materia
 import { Container, Avatar, Button, Tooltip, MenuItem } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material';
 import Divider from '@mui/material/Divider';
+import {RouterLink, withRouter} from 'react-router-dom'
 
-const pages = ['Create New', 'Completed Tasks'];
+const pages = [{page:'Create New', path:'/create'}, {page:'Completed Tasks', path:'/completed'}];
 const settings = ['Profile', 'Logout'];
 
-function Header() {
+const Header = withRouter(({history}) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -58,14 +59,15 @@ function Header() {
           </Typography>
           <Divider orientation="vertical" variant="middle" flexItem />
           <Box sx={{ flexGrow: 2, mx: 2, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
+            {pages.map(({page, path}) => (
+                <Button
+                  key={page}
+                  to={path}
+                  href={path}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  {page}
+                </Button>
             ))}
           </Box>
 
@@ -103,7 +105,8 @@ function Header() {
     </AppBar>
     </ThemeProvider>
   );
-}
+})
+
 export default Header;
 
 

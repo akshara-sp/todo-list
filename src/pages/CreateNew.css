@@ -1,0 +1,13 @@
+.create_new {
+    margin-top: 40px;
+    display:grid;
+    place-items: center;
+}
+  
+.create_new__todo_form {
+    align-items: center;
+}
+  
+.create_new__todo_form>Button{
+    margin-left: 20px;
+}
