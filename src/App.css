@@ -2,3 +2,11 @@
   display:grid;
   place-items: center;
 }
+
+.app__form {
+  align-items: center;
+}
+
+.app__form>Button{
+  margin-left: 20px;
+}

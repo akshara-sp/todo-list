@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import './App.css';
-import { Button, FormControl, Input, InputLabel } from '@material-ui/core';
+import { Button, FormControl, Input, InputLabel } from '@mui/material';
 import firebase from 'firebase/compat/app';
 import Todo from './components/Todo';
 import { db } from './firebase_config';
+import Header from './components/Header';
 
 function App() {
     const [todos, setTodos] = useState([])    
@@ -30,7 +31,7 @@ function App() {
 
     return (
         <div className="app">
-            <h1>To-Do List</h1>
+            <Header />
             <form>
                 <FormControl>
                     <InputLabel>Write a To-Do</InputLabel>
