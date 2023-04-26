@@ -15,23 +15,35 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 2,
+    marginTop: '40px',
 
     '& .MuiTextField-root': {
+      marginTop: "10px",
       margin: 1,
       width: '300px',
     },
     '& .MuiButtonBase-root': {
       margin: 2,
+      marginTop: "20px",
     },
   },
 }));
 
+function loggedIn() {
+  if (sessionStorage.getItem('uid')) {
+    return true
+  } else {
+    return false
+  }
+}
+
 const CreateNew = () => {
+
   const classes = useStyles();
   // create state variables for each input
   const [todo, setTodo] = useState('');
   const [description, setDescription] = useState('');
-  const [due, setDue] = useState('');
+  const [due, setDue] = useState(firebase.firestore.FieldValue.serverTimestamp());
 
   let navigate = useNavigate();
 
@@ -55,9 +67,13 @@ const CreateNew = () => {
         setTodo('')
         setDescription('')
         setDue('')
-        // navigate('/')
+        navigate('/')
     }
   };
+
+  if (!loggedIn()) {
+    return (<div></div>)
+  }
 
   return (
     <form className={classes.root} onSubmit={handleSubmit}>

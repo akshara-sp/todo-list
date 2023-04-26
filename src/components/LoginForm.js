@@ -14,6 +14,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 2,
+    marginTop: "40px",
 
     '& .MuiTextField-root': {
       margin: 1,
@@ -26,6 +27,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const LoginForm = () => {
+
   const classes = useStyles();
   // create state variables for each input
   const [email, setEmail] = useState('');
@@ -35,14 +37,14 @@ const LoginForm = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    // console.log(email, password);
     signInWithEmailAndPassword(auth, email, password)
         .then((response) => {
-          sessionStorage.setItem('Auth Token', response._tokenResponse.refreshToken)
-          sessionStorage.setItem('data', response)
+          sessionStorage.setItem('uid', response.user.uid)
           navigate('/')
-          console.log(response);
-        })
+        }).catch((error) => {
+          console.log('Login Failed!')
+          console.log(error)
+        });
   };
 
   return (
